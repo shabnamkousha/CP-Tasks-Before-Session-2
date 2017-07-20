@@ -1,57 +1,67 @@
-1- Given a list, rotate the list to the right by k places, where k is non-negative. 
+1- Given a string, find the length of the longest substring without repeating characters.
 
-ListNode* Solution::rotateRight(ListNode* A, int B) {
-    if(A==NULL){
-        return NULL;
-    }
-    int counter=1;
-    ListNode *current_node=A;
-    while(current_node->next!=NULL){
-        current_node=current_node->next;
-        counter++;
-    }
+public class Solution {
+    public int lengthOfLongestSubstring(String A) {
+        if(A==null || A.length()==0)
+        return 0;
+ 
+    HashSet<Character> set = new HashSet<Character>();
+ 
+    int max=0;
+ 
     
-    current_node->next=A;
-
-    ListNode *sub_list=A;
-    int actual_B=counter-B%counter-1;
-    for (int j=0; j<actual_B; j++){
-        sub_list =sub_list->next;  
+    int start=0;
+    for(int i=0; i<A.length(); i++){
+        char c = A.charAt(i);
+        if(!set.contains(c)){
+            set.add(c);
+        }else{
+            max = Math.max(max, set.size());
+ 
+            while(start<i&&A.charAt(start)!=c){
+                set.remove(A.charAt(start));
+                start++;
+            }
+            start++;
+        }
+ 
     }
-    
-    A=sub_list->next;
-    sub_list->next=NULL;
-    
-    return A;
-   
+ 
+    max = Math.max(max, set.size());
+ 
+    return max;
+    }
 }
-
 
 ----------------------------------------------------------
 
-2- Given a linked list, swap every two adjacent nodes and return its head.
+2- Given an array of strings, return all groups of strings that are anagrams. Represent a group by a list of integers representing the index in the original list. Look at the sample case for clarification. 
 
 public class Solution {
-	public ListNode swapPairs(ListNode a) {
-	    if(a == null || a.next == null){
-            return a;
+	public ArrayList<ArrayList<Integer>> anagrams(final List<String> a) {
+	    
+	    ArrayList<ArrayList<Integer>> resultAarray = new ArrayList<ArrayList<Integer>>();
+        HashMap<String, ArrayList<Integer>> hashMap = new HashMap<String, ArrayList<Integer>>();
+	    for(int i = 0; i < a.size(); i++){
+	        char [] charAr=a.get(i).toCharArray();
+	        Arrays.sort(charAr);
+	        String strValue=String.valueOf(charAr);
+	        if(hashMap.get(strValue) == null){
+	            ArrayList<Integer> l = new ArrayList<Integer>();
+                l.add(i+1);
+                hashMap.put(strValue, l);
+	        } else {
+                hashMap.get(strValue).add(i + 1);
+	        }
+	        
 	    }
-	    ListNode h = new ListNode(0);
-        h.next = a;
-        ListNode p = h;
-        while(p.next != null && p.next.next != null)
-        {
-            ListNode first_node = p;
-            p = p.next;
-            first_node.next = p.next;
-     
-            ListNode next_node = p.next.next;
-            p.next.next = p;
-            p.next = next_node;
-        }
- 
-        return h.next;
+	    for(ArrayList<Integer> l : hashMap.values()){
+	           resultAarray.add(l);
+	        }
+	        
+	        return resultAarray;
 	    
 	}
 }
-  
+
+ 
