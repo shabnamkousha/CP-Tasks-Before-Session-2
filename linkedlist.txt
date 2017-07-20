@@ -1,0 +1,57 @@
+1- Given a list, rotate the list to the right by k places, where k is non-negative.
+
+ListNode* Solution::rotateRight(ListNode* A, int B) {
+    if(A==NULL){
+        return NULL;
+    }
+    int counter=1;
+    ListNode *current_node=A;
+    while(current_node->next!=NULL){
+        current_node=current_node->next;
+        counter++;
+    }
+    
+    current_node->next=A;
+
+    ListNode *sub_list=A;
+    int actual_B=counter-B%counter-1;
+    for (int j=0; j<actual_B; j++){
+        sub_list =sub_list->next;  
+    }
+    
+    A=sub_list->next;
+    sub_list->next=NULL;
+    
+    return A;
+   
+}
+
+--------------------------------------------------------
+
+2- public class Solution {
+	public ListNode swapPairs(ListNode a) {
+	    if(a == null || a.next == null){
+            return a;
+	    }
+	    ListNode h = new ListNode(0);
+        h.next = a;
+        ListNode p = h;
+        while(p.next != null && p.next.next != null)
+        {
+            ListNode first_node = p;
+            p = p.next;
+            first_node.next = p.next;
+     
+            ListNode next_node = p.next.next;
+            p.next.next = p;
+            p.next = next_node;
+        }
+ 
+        return h.next;
+	    
+	}
+}
+
+
+
+
